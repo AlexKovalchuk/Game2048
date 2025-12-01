@@ -49,7 +49,6 @@ public class Board
         List <Tile> emptyTiles = GetEmptyTiles();
         if (emptyTiles.Count == 0)
         {
-            Console.WriteLine($"Cannot spawn a tile, no empty space");
             return;
         }
         int randomValue = Random.NextDouble() < 0.9 ? 2 : 4;
@@ -65,7 +64,7 @@ public class Board
         Spawn();
     }
 
-    public void DebugSpawnMoveLeft()
+    public void DebugSpawnMove()
     {
         List <Tile> emptyTiles = GetEmptyTiles();
         emptyTiles[0].Value = 2;
@@ -107,7 +106,7 @@ public class Board
     {
         List<Tile> tilesSorted = Tiles.OrderBy(t => t.Row).ThenBy(t => t.Column).ToList();
         
-        if (direction == MoveDirection.Left) // It is done, go further.
+        if (direction == MoveDirection.Left)
         {
             for (int rowIndex = 0; rowIndex < Size; rowIndex++)
             {
@@ -209,13 +208,10 @@ public class Board
     
     private bool CanMoveGeneral()
     {
-        if (Tiles.Count < Size * Size) return true;
-
         List<Tile> tilesSorted = Tiles.OrderBy(t => t.Row).ThenBy(t => t.Column).ToList();
         for (int rowIndex = 0; rowIndex < Size; rowIndex++)
         {
             List<Tile> rowTiles = tilesSorted.Where(t => t.Row == rowIndex).ToList();
-            if(rowTiles.Count == 0) continue;
             for (int colIndex = 0; colIndex < rowTiles.Count; colIndex++)
             {
                 if (colIndex + 1 < rowTiles.Count &&
@@ -229,7 +225,6 @@ public class Board
         for (int colIndex = 0; colIndex < Size; colIndex++)
         {
             List<Tile> colTiles = tilesSorted.Where(t => t.Column == colIndex).ToList();
-            if(colTiles.Count == 0) continue;
             for (int rowIndex = 0; rowIndex < colTiles.Count; rowIndex++)
             {
                 if (rowIndex + 1 < colTiles.Count &&
@@ -240,6 +235,8 @@ public class Board
                 }
             }
         }
+
+        if (Tiles.Count < Size * Size) return true;
         
         return false;
     }
@@ -250,7 +247,7 @@ public class Board
         {
             State = GameState.Lost;
         }
-        else if(Tiles.Any(t => t.Value == 2048))
+        else if(Tiles.Any(t => t.Value == 8096))
         {
             State = GameState.Won;
         }
@@ -262,8 +259,6 @@ public class Board
     
     public void Move(MoveDirection direction)
     {
-        Console.WriteLine($"Moving tile to the {direction}");
-
         List<Tile> prevTiles = Tiles
             .Select(t => new Tile { Row = t.Row, Column = t.Column, Value = t.Value })
             .ToList();
@@ -317,7 +312,7 @@ public class Board
             }
         }
         
-        else if (direction == MoveDirection.Up) // It is done, go further.
+        else if (direction == MoveDirection.Up)
         {
             for (int colIndex = 0; colIndex < Size; colIndex++)
             {
