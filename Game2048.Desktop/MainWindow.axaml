@@ -9,6 +9,50 @@
     Width="540" Height="700"
     d:DesignWidth="540" d:DesignHeight="700">
 
+    <!-- 🟦 СТИЛІ ДЛЯ КНОПКИ NEW GAME -->
+    <Window.Styles>
+
+        <!-- Базовий стиль -->
+        <Style Selector="Button.new-game-button">
+            <Setter Property="Background" Value="#C5F5C7"/>
+            <Setter Property="Foreground" Value="#2f4f2f"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="Padding" Value="14,6"/>
+            <Setter Property="BorderBrush" Value="#8BCF90"/>
+            <Setter Property="BorderThickness" Value="2"/>
+            <Setter Property="CornerRadius" Value="6"/>
+            <Setter Property="HorizontalAlignment" Value="Right"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+
+            <!-- Анімація зміни Background -->
+            <Style.Animations>
+                <Animation Duration="0:0:0.1">
+                    <KeyFrame Cue="0%">
+                        <Setter Property="Background" Value="#C5F5C7"/>
+                    </KeyFrame>
+                    <KeyFrame Cue="100%">
+                        <Setter Property="Background" Value="#A8E3AB"/>
+                    </KeyFrame>
+                </Animation>
+            </Style.Animations>
+        </Style>
+
+        <!-- Hover -->
+        <Style Selector="Button.new-game-button:pointerover">
+            <Setter Property="Background" Value="#A8E3AB"/>
+            <Setter Property="BorderBrush" Value="#7FBF85"/>
+        </Style>
+
+        <!-- Disabled -->
+        <Style Selector="Button.new-game-button:disabled">
+            <Setter Property="Background" Value="#D8E8D8"/>
+            <Setter Property="Foreground" Value="#8FA48F"/>
+            <Setter Property="BorderBrush" Value="#C4D5C4"/>
+        </Style>
+
+    </Window.Styles>
+
     <Design.DataContext>
         <vm:GameViewModel />
     </Design.DataContext>
@@ -21,17 +65,19 @@
         <KeyBinding Command="{Binding NewGameCommand}" Gesture="R" />
     </Window.KeyBindings>
 
+    <!-- 🟩 ОСНОВНИЙ ІНТЕРФЕЙС -->
     <Grid RowDefinitions="Auto Auto *" Margin="20">
 
+        <!-- Верхній бар -->
         <Grid Margin="0,16,0,8" ColumnDefinitions="Auto,*,Auto">
-            
+
             <TextBlock Grid.Column="0"
                        Text="2048"
                        FontSize="36"
                        FontWeight="Bold"
                        Foreground="#776e65"
                        VerticalAlignment="Center" />
-            
+
             <StackPanel Grid.Column="1"
                         Orientation="Horizontal"
                         HorizontalAlignment="Center"
@@ -70,29 +116,22 @@
                     </StackPanel>
                 </Border>
             </StackPanel>
-            
+
+            <!-- Кнопка New Game -->
             <Button Grid.Column="2"
+                    Classes="new-game-button"
                     Content="New Game"
-                    Command="{Binding NewGameCommand}"
-                    Background="#A8E6A3"
-                    Foreground="#333"
-                    Padding="12,8"
-                    CornerRadius="6"
-                    FontWeight="Bold"
-                    HorizontalAlignment="Right"
-                    VerticalAlignment="Center" />
+                    Command="{Binding NewGameCommand}" />
         </Grid>
 
-
-        <!-- STATUS -->
+        <!-- Статус гри -->
         <TextBlock Grid.Row="1"
                    Text="{Binding StateText}"
                    Foreground="#776e65"
                    FontSize="16"
                    Margin="0,12,0,12" />
 
-
-        <!-- GAME BOARD -->
+        <!-- Ігрове поле -->
         <Border Grid.Row="2"
                 Background="#bbada0"
                 CornerRadius="8"
@@ -126,47 +165,9 @@
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
             </ItemsControl>
+
         </Border>
+
     </Grid>
-    
-    <Style Selector="Button.new-game-button">
-        <Setter Property="Background" Value="#C5F5C7"/>      <!-- світло-зелений -->
-        <Setter Property="Foreground" Value="#2f4f2f"/>      <!-- темно-зелений текст -->
-        <Setter Property="FontWeight" Value="Bold"/>
-        <Setter Property="FontSize" Value="14"/>
-        <Setter Property="Padding" Value="14,6"/>
-        <Setter Property="BorderBrush" Value="#8BCF90"/>
-        <Setter Property="BorderThickness" Value="2"/>
-        <Setter Property="CornerRadius" Value="6"/>
-        <Setter Property="HorizontalAlignment" Value="Right"/>
-        <Setter Property="VerticalAlignment" Value="Center"/>
-
-        <!-- Анімація при наведенні -->
-        <Style.Animations>
-            <Animation Duration="0.12">
-                <KeyFrame Cue="0%">
-                    <Setter Property="Background" Value="#C5F5C7"/>
-                </KeyFrame>
-                <KeyFrame Cue="100%">
-                    <Setter Property="Background" Value="#A8E3AB"/>
-                </KeyFrame>
-            </Animation>
-        </Style.Animations>
-
-        <Style.Triggers>
-            <!-- Hover -->
-            <SelectorTrigger Selector="Button.new-game-button:pointerover">
-                <Setter Property="Background" Value="#A8E3AB"/>   <!-- темніший зелений -->
-                <Setter Property="BorderBrush" Value="#7FBF85"/>
-            </SelectorTrigger>
-
-            <!-- Disabled -->
-            <SelectorTrigger Selector="Button.new-game-button:disabled">
-                <Setter Property="Background" Value="#D8E8D8"/>
-                <Setter Property="Foreground" Value="#8FA48F"/>
-                <Setter Property="BorderBrush" Value="#C4D5C4"/>
-            </SelectorTrigger>
-        </Style.Triggers>
-    </Style>
 
 </Window>
